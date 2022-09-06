@@ -1,6 +1,10 @@
 package com.rafael.gvendas.gestaovendas.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +17,8 @@ public class Categoria {
     private Long codigo;
 
     @Column(name = "nome")
+    @NotBlank(message = "Nome não pode ser vazio")
+    @Length(min = 3, max = 50, message = "Nome")
     private String nome;
 
     public Long getCodigo() {
