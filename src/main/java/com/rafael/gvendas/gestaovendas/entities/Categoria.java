@@ -17,7 +17,7 @@ public class Categoria {
     private Long codigo;
 
     @Column(name = "nome")
-    @NotBlank(message = "Nome não pode ser vazio")
+    @NotBlank(message = "Nome")
     @Length(min = 3, max = 50, message = "Nome")
     private String nome;
 
