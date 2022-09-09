@@ -4,6 +4,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.objenesis.ObjenesisHelper;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,6 +33,14 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
         String userMessage = "Recurso não encontrado...";
         String developerMessage = ex.toString();
+        List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(DuplicatedNameException.class)
+    public ResponseEntity<Object> handleDuplicatedNameException(DuplicatedNameException ex, WebRequest request) {
+        String userMessage = ex.getMessage();
+        String developerMessage = ex.getMessage();
         List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }

@@ -1,6 +1,7 @@
 package com.rafael.gvendas.gestaovendas.services;
 
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
+import com.rafael.gvendas.gestaovendas.exceptions.DuplicatedNameException;
 import com.rafael.gvendas.gestaovendas.repository.CategoriaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,13 @@ public class CategoriaService {
     }
 
     public Categoria save(Categoria categoria) {
+        validateIfCategoriaNomeExists(categoria);
         return repository.save(categoria);
     }
 
     public Categoria update(Long codigo, Categoria categoria) {
         Categoria _categoria = validateIfExists(codigo);
+        validateIfCategoriaNomeExists(categoria);
         BeanUtils.copyProperties(categoria, _categoria, "codigo");
         return repository.save(_categoria);
     }
@@ -44,6 +47,13 @@ public class CategoriaService {
             throw new EmptyResultDataAccessException(1);
         } else {
             return categoria.get();
+        }
+    }
+
+    private void validateIfCategoriaNomeExists(Categoria categoria) {
+        Categoria _categoria = repository.findByNome(categoria.getNome());
+        if (_categoria != null && _categoria.getCodigo() != categoria.getCodigo()) {
+            throw new DuplicatedNameException(String.format("Este nome de categoria (%s) já está cadastrado", categoria.getNome().toUpperCase()));
         }
     }
 }
