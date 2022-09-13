@@ -1,4 +1,4 @@
-package com.rafael.gvendas.gestaovendas.repository;
+package com.rafael.gvendas.gestaovendas.services.repository;
 
 import com.rafael.gvendas.gestaovendas.entities.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +17,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
             "where prod.codigo = :codigo" +
             " and prod.categoria.codigo = :codigoCategoria")
     Optional<Produto> findByCodigo(Long codigo, Long codigoCategoria);
+
+    Optional<Produto> findByCategoriaCodigoAndDescricao(Long codigoCategoria, String descricao);
 }
