@@ -21,20 +21,20 @@ public class CategoriaController {
     @Autowired
     private CategoriaService service;
 
-    @ApiOperation(value = "Listar todos", nickname = "getAll")
+    @ApiOperation(value = "Listar todos", nickname = "get-all")
     @GetMapping()
     public List<Categoria> getAll() {
         return service.getAll();
     }
 
-    @ApiOperation(value = "Listar por código", nickname = "getById")
+    @ApiOperation(value = "Listar por código", nickname = "get-by-id")
     @GetMapping("/{codigo}")
     public ResponseEntity<Optional<Categoria>> getById(@PathVariable Long codigo) {
         Optional<Categoria> categoria = service.getById(codigo);
         return categoria.isPresent() ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
     }
 
-    @ApiOperation(value = "Salvar", nickname = "save")
+    @ApiOperation(value = "Salvar", nickname = "save-categoria")
     @PostMapping()
     public ResponseEntity<Categoria> save(@Valid @RequestBody Categoria categoria) {
         Categoria _categoria = service.save(categoria);
