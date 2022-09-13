@@ -20,7 +20,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoService service;
 
-    @ApiOperation(value = "Listar todos", nickname = "get-all")
+    @ApiOperation(value = "Listar todos", nickname = "get-all-produto")
     @GetMapping
     public List<Produto> getAll() {
         return service.getAll();
