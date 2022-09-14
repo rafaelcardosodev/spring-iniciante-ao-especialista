@@ -51,4 +51,11 @@ public class ProdutoController {
     public ResponseEntity<Produto> update(@PathVariable Long codigo, @PathVariable Long codigoCategoria, @Valid @RequestBody Produto produto) {
         return ResponseEntity.ok(service.update(produto, codigo, codigoCategoria));
     }
+
+    @ApiOperation(value = "Deletar", nickname = "deletar-produto")
+    @DeleteMapping("/{codigo}/categoria{codigoCategoria}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long codigo, @PathVariable Long codigoCategoria) {
+        service.delete(codigo, codigoCategoria);
+    }
 }

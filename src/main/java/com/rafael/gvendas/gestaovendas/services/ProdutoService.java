@@ -47,16 +47,8 @@ public class ProdutoService {
         return repository.save(_produto);
     }
 
-    private Produto validateIfExists(Long codigo, Long codigoCategoria) {
-        Optional<Produto> produto = findByCodigo(codigo, codigoCategoria);
-        if (produto.isEmpty()) {
-            throw new EmptyResultDataAccessException(1);
-        }
-
-        return produto.get();
-    }
-
-    public void delete(Long codigo) {
+    public void delete(Long codigo, Long codigoCategoria) {
+        validateIfExists(codigo, codigoCategoria);
         repository.deleteById(codigo);
     }
 
@@ -72,5 +64,12 @@ public class ProdutoService {
         if (categoriaService.getById(codigoCategoria).isEmpty()) throw new BusinessRuleException(String.format("Esta categoria de código %s não existe", codigoCategoria));
     }
 
+    private Produto validateIfExists(Long codigo, Long codigoCategoria) {
+        Optional<Produto> produto = findByCodigo(codigo, codigoCategoria);
+        if (produto.isEmpty()) {
+            throw new EmptyResultDataAccessException(1);
+        }
 
+        return produto.get();
+    }
 }
