@@ -1,5 +1,6 @@
 package com.rafael.gvendas.gestaovendas.controllers;
 
+import com.rafael.gvendas.gestaovendas.dto.CategoriaRequestDTO;
 import com.rafael.gvendas.gestaovendas.dto.CategoriaResponseDTO;
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
 import com.rafael.gvendas.gestaovendas.services.CategoriaService;
@@ -42,15 +43,15 @@ public class CategoriaController {
 
     @ApiOperation(value = "Salvar", nickname = "save-categoria")
     @PostMapping()
-    public ResponseEntity<Categoria> save(@Valid @RequestBody Categoria categoria) {
-        Categoria _categoria = service.save(categoria);
-        return ResponseEntity.status(HttpStatus.CREATED).body(_categoria);
+    public ResponseEntity<CategoriaResponseDTO> save(@Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+        Categoria _categoria = service.save(categoriaDTO.convertToEntity());
+        return ResponseEntity.status(HttpStatus.CREATED).body(CategoriaResponseDTO.convertToCategoriaDTO(_categoria));
     }
 
     @ApiOperation(value = "Atualizar", nickname = "update-categoria")
     @PutMapping("/{codigo}")
-    public ResponseEntity<Categoria> update(@PathVariable Long codigo, @Valid @RequestBody Categoria categoria) {
-        return ResponseEntity.ok(service.update(codigo, categoria));
+    public ResponseEntity<Categoria> update(@PathVariable Long codigo, @Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+        return ResponseEntity.ok(service.update(codigo, categoriaDTO.convertToEntity(codigo)));
     }
 
     @ApiOperation(value = "Deletar", nickname = "delete-categoria")
