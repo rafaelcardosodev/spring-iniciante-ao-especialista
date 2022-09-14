@@ -33,7 +33,7 @@ public class ProdutoController {
         return service.getAllByCategoria(codigoCategoria);
     }
 
-    @ApiOperation(value = "Listar por código", nickname = "find-by-codigo")
+    @ApiOperation(value = "Listar por código", nickname = "find-by-codigo-produto")
     @GetMapping("/{codigo}/categoria{codigoCategoria}")
     public ResponseEntity<Optional<Produto>> findByCodigo(@PathVariable Long codigo, @PathVariable Long codigoCategoria) {
         Optional<Produto> produto = service.findByCodigo(codigo, codigoCategoria);
