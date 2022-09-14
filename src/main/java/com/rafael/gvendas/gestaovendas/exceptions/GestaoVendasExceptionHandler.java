@@ -23,6 +23,7 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
     private String userMessage;
     private String developerMessage;
     public static final String CONST_VALIDATION_NOT_BLANK = "NotBlank";
+    public static final String CONST_VALIDATION_NOT_NULL = "NotNull";
     public static final String CONST_VALIDATION_LENGTH = "Length";
 
     @Override
@@ -72,6 +73,10 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 
         if (error.getCode().equals(CONST_VALIDATION_LENGTH)) {
             return error.getDefaultMessage().concat(String.format(" deve ter entre %s e %s caracteres", error.getArguments()[2], error.getArguments()[1]));
+        }
+
+        if (error.getCode().equals(CONST_VALIDATION_NOT_NULL)) {
+            return error.getDefaultMessage().concat(" é obrigatório");
         }
         return error.toString();
     }

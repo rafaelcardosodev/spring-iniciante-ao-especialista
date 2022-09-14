@@ -1,4 +1,4 @@
-package com.rafael.gvendas.gestaovendas.services.repository;
+package com.rafael.gvendas.gestaovendas.repository;
 
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;

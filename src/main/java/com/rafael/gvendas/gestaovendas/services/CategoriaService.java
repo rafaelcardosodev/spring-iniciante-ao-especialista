@@ -2,7 +2,7 @@ package com.rafael.gvendas.gestaovendas.services;
 
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
 import com.rafael.gvendas.gestaovendas.exceptions.BusinessRuleException;
-import com.rafael.gvendas.gestaovendas.services.repository.CategoriaRepository;
+import com.rafael.gvendas.gestaovendas.repository.CategoriaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

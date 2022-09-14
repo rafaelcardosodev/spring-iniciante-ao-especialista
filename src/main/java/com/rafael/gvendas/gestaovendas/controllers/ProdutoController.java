@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,13 @@ public class ProdutoController {
 
     @ApiOperation(value = "Salvar", nickname = "save-produto")
     @PostMapping
-    public ResponseEntity<Produto> save(@RequestBody Produto produto) {
+    public ResponseEntity<Produto> save(@Valid @RequestBody Produto produto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(produto));
+    }
+
+    @ApiOperation(value = "Atualizar", nickname = "atualizar-produto")
+    @PutMapping("/{codigo}/categoria{codigoCategoria}")
+    public ResponseEntity<Produto> update(@PathVariable Long codigo, @PathVariable Long codigoCategoria, @Valid @RequestBody Produto produto) {
+        return ResponseEntity.ok(service.update(produto, codigo, codigoCategoria));
     }
 }
