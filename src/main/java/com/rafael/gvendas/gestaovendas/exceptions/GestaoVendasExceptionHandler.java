@@ -36,7 +36,7 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         userMessage = "Recurso não encontrado...";
         developerMessage = ex.toString();
-        List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
+        List<Error> errors = List.of(new Error(userMessage, developerMessage));
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
@@ -44,7 +44,7 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
         userMessage = "Recurso não encontrado...";
         developerMessage = ex.toString();
-        List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
+        List<Error> errors = List.of(new Error(userMessage, developerMessage));
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
@@ -52,7 +52,7 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleDuplicatedNameException(BusinessRuleException ex, WebRequest request) {
         userMessage = ex.getMessage();
         developerMessage = ex.getMessage();
-        List<Error> errors = Arrays.asList(new Error(userMessage, developerMessage));
+        List<Error> errors = List.of(new Error(userMessage, developerMessage));
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 

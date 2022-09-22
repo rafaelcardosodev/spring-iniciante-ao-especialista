@@ -1,4 +1,4 @@
-package com.rafael.gvendas.gestaovendas.dto;
+package com.rafael.gvendas.gestaovendas.dto.categoria;
 
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
 import io.swagger.annotations.ApiModel;

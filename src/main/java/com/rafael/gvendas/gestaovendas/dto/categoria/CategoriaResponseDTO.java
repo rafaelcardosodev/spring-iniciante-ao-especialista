@@ -1,4 +1,4 @@
-package com.rafael.gvendas.gestaovendas.dto;
+package com.rafael.gvendas.gestaovendas.dto.categoria;
 
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
 import io.swagger.annotations.ApiModel;
@@ -19,10 +19,6 @@ public class CategoriaResponseDTO {
         this.nome = nome;
     }
 
-    public static CategoriaResponseDTO convertToCategoriaDTO(Categoria categoria) {
-        return new CategoriaResponseDTO(categoria.getCodigo(), categoria.getNome());
-    }
-
     public Long getCodigo() {
         return codigo;
     }
@@ -37,5 +33,9 @@ public class CategoriaResponseDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public static CategoriaResponseDTO convertToCategoriaDTO(Categoria categoria) {
+        return new CategoriaResponseDTO(categoria.getCodigo(), categoria.getNome());
     }
 }

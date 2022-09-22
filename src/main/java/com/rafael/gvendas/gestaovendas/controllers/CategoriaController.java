@@ -1,7 +1,7 @@
 package com.rafael.gvendas.gestaovendas.controllers;
 
-import com.rafael.gvendas.gestaovendas.dto.CategoriaRequestDTO;
-import com.rafael.gvendas.gestaovendas.dto.CategoriaResponseDTO;
+import com.rafael.gvendas.gestaovendas.dto.categoria.CategoriaRequestDTO;
+import com.rafael.gvendas.gestaovendas.dto.categoria.CategoriaResponseDTO;
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
 import com.rafael.gvendas.gestaovendas.services.CategoriaService;
 import io.swagger.annotations.Api;
@@ -50,8 +50,9 @@ public class CategoriaController {
 
     @ApiOperation(value = "Atualizar", nickname = "update-categoria")
     @PutMapping("/{codigo}")
-    public ResponseEntity<Categoria> update(@PathVariable Long codigo, @Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
-        return ResponseEntity.ok(service.update(codigo, categoriaDTO.convertToEntity(codigo)));
+    public ResponseEntity<CategoriaResponseDTO> update(@PathVariable Long codigo, @Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+        Categoria categoria = service.update(codigo, categoriaDTO.convertToEntity(codigo));
+        return ResponseEntity.ok(CategoriaResponseDTO.convertToCategoriaDTO(categoria));
     }
 
     @ApiOperation(value = "Deletar", nickname = "delete-categoria")
