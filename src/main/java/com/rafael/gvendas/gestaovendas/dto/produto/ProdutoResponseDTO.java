@@ -2,33 +2,32 @@ package com.rafael.gvendas.gestaovendas.dto.produto;
 
 import com.rafael.gvendas.gestaovendas.dto.categoria.CategoriaResponseDTO;
 import com.rafael.gvendas.gestaovendas.entities.Produto;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
-@ApiModel("Produto response DTO")
+@Schema(name = "Produto response DTO")
 public class ProdutoResponseDTO {
 
-    @ApiModelProperty(value = "Código")
+    @Schema(name = "Código")
     private Long codigo;
 
-    @ApiModelProperty(value = "Descrição")
+    @Schema(name = "Descrição")
     private String descricao;
 
-    @ApiModelProperty(value = "Quantidade")
+    @Schema(name = "Quantidade")
     private Integer quantidade;
 
-    @ApiModelProperty(value = "Preço de custo")
+    @Schema(name = "Preço de custo")
     private BigDecimal precoCusto;
 
-    @ApiModelProperty(value = "Preço de venda")
+    @Schema(name = "Preço de venda")
     private BigDecimal precoVenda;
 
-    @ApiModelProperty(value = "Observação")
+    @Schema(name = "Observação")
     private String observacao;
 
-    @ApiModelProperty(value = "Categoria")
+    @Schema(name = "Categoria")
     private CategoriaResponseDTO categoria;
 
     public ProdutoResponseDTO() {}

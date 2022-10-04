@@ -1,16 +1,15 @@
 package com.rafael.gvendas.gestaovendas.dto.categoria;
 
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@ApiModel("Categoria Response DTO")
+@Schema(name = "Categoria Response DTO")
 public class CategoriaResponseDTO {
 
-    @ApiModelProperty(value = "Código")
+    @Schema(name = "Código")
     private Long codigo;
 
-    @ApiModelProperty(value = "Nome")
+    @Schema(name = "Nome")
 
     private String nome;
 

@@ -1,16 +1,15 @@
 package com.rafael.gvendas.gestaovendas.dto.categoria;
 
 import com.rafael.gvendas.gestaovendas.entities.Categoria;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
-@ApiModel("Categoria Request DTO")
+@Schema(name = "Categoria Request DTO")
 public class CategoriaRequestDTO {
 
-    @ApiModelProperty(value = "Nome")
+    @Schema(name = "Nome")
     @NotBlank(message = "Nome")
     @Length(min = 3, max = 50, message = "Nome")
     private String nome;
