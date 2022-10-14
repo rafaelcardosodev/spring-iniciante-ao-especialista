@@ -14,7 +14,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @ControllerAdvice
@@ -25,6 +24,7 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
     public static final String CONST_VALIDATION_NOT_BLANK = "NotBlank";
     public static final String CONST_VALIDATION_NOT_NULL = "NotNull";
     public static final String CONST_VALIDATION_LENGTH = "Length";
+    public static final String CONST_VALIDATION_PATTERN = "Pattern";
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -77,6 +77,10 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 
         if (error.getCode().equals(CONST_VALIDATION_NOT_NULL)) {
             return error.getDefaultMessage().concat(" é obrigatório");
+        }
+
+        if (error.getCode().equals(CONST_VALIDATION_PATTERN)) {
+            return error.getDefaultMessage().concat(" com formato inválido");
         }
         return error.toString();
     }

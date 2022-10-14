@@ -1,22 +1,40 @@
 package com.rafael.gvendas.gestaovendas.dto.cliente;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Schema(name = "Endereço request DTO")
 public class EnderecoRequestDTO {
 
+    @NotBlank(message = "Logradouro")
+    @Length(min = 3, max = 30, message = "Nome")
     private String logradouro;
 
+    @NotNull(message = "Número")
     private Integer numero;
 
+
+    @Length(max = 30, message = "Complemento")
     private String complemento;
 
+    @NotBlank(message = "Bairro")
+    @Length(min = 3, max = 30, message = "Bairro")
     private String bairro;
 
+    @NotBlank(message = "Cep")
+    @Pattern(regexp = "[\\d]{5}-[\\d]{3}", message = "Cep")
     private String cep;
 
+    @NotBlank(message = "Cidade")
+    @Length(min = 3, max = 30, message = "Cidade")
     private String cidade;
 
+    @NotBlank(message = "Estado")
+    @Length(min = 3, max = 30, message = "Estado")
     private String estado;
 
     public EnderecoRequestDTO() {}

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,9 +43,23 @@ public class ClienteController {
 
     @Operation(summary = "Salvar")
     @PostMapping()
-    public ResponseEntity<ClienteResponseDTO> save(@RequestBody ClienteRequestDTO clienteRequestDTO) {
+    public ResponseEntity<ClienteResponseDTO> save(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
         Cliente _cliente = service.save(clienteRequestDTO.convertToEntity());
         return ResponseEntity.status(HttpStatus.CREATED).body(ClienteResponseDTO.convertToClienteDTO(_cliente));
+    }
+
+    @Operation(summary = "Atualizar")
+    @PutMapping("/{codigo}")
+    public ResponseEntity<ClienteResponseDTO> update(@PathVariable Long codigo, @Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
+        Cliente _cliente = service.update(codigo, clienteRequestDTO.convertToEntity(codigo));
+        return ResponseEntity.ok().body(ClienteResponseDTO.convertToClienteDTO(_cliente));
+    }
+
+    @Operation(summary = "Deletar")
+    @DeleteMapping("/{codigo}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long codigo) {
+        service.delete(codigo);
     }
 
 }
