@@ -6,10 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "Categoria Response DTO")
 public class CategoriaResponseDTO {
 
-    @Schema(name = "Código")
     private Long codigo;
 
-    @Schema(name = "Nome")
 
     private String nome;
 

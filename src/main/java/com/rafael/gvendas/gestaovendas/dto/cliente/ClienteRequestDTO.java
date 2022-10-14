@@ -7,16 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "Cliente Request DTO")
 public class ClienteRequestDTO {
 
-    @Schema(name = "Nome")
     private String nome;
 
-    @Schema(name = "Telefone")
     private String telefone;
 
-    @Schema(name = "Ativo")
     private Boolean ativo;
 
-    @Schema(name = "Endereço")
     private EnderecoRequestDTO enderecoRequestDTO;
 
     public ClienteRequestDTO(){}

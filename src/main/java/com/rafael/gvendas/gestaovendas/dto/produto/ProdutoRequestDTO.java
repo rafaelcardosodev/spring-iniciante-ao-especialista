@@ -12,24 +12,19 @@ import java.math.BigDecimal;
 @Schema(name = "Produto request DTO")
 public class ProdutoRequestDTO {
 
-    @Schema(name = "Descrição")
     @NotBlank(message = "Descrição")
     @Length(min = 3, max = 100, message = "Descrição")
     private String descricao;
 
-    @Schema(name = "Quantidade")
     @NotNull(message = "Quantidade")
     private Integer quantidade;
 
-    @Schema(name = "Preço de custo")
     @NotNull(message = "Preço de custo")
     private BigDecimal precoCusto;
 
-    @Schema(name = "Preço de venda")
     @NotNull(message = "Preço de venda")
     private BigDecimal precoVenda;
 
-    @Schema(name = "Observação")
     @Length(max = 500, message = "Observação")
     private String observacao;
 

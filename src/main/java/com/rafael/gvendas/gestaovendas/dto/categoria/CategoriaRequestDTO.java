@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 @Schema(name = "Categoria Request DTO")
 public class CategoriaRequestDTO {
 
-    @Schema(name = "Nome")
     @NotBlank(message = "Nome")
     @Length(min = 3, max = 50, message = "Nome")
     private String nome;

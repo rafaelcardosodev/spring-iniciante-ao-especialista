@@ -9,25 +9,18 @@ import java.math.BigDecimal;
 @Schema(name = "Produto response DTO")
 public class ProdutoResponseDTO {
 
-    @Schema(name = "Código")
     private Long codigo;
 
-    @Schema(name = "Descrição")
     private String descricao;
 
-    @Schema(name = "Quantidade")
     private Integer quantidade;
 
-    @Schema(name = "Preço de custo")
     private BigDecimal precoCusto;
 
-    @Schema(name = "Preço de venda")
     private BigDecimal precoVenda;
 
-    @Schema(name = "Observação")
     private String observacao;
 
-    @Schema(name = "Categoria")
     private CategoriaResponseDTO categoria;
 
     public ProdutoResponseDTO() {}
