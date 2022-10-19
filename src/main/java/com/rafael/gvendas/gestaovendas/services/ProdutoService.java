@@ -72,4 +72,13 @@ public class ProdutoService {
 
         return produto.get();
     }
+
+    protected Produto validateIfExists(Long codigo) {
+        Optional<Produto> produto = repository.findById(codigo);
+        if (produto.isEmpty()) {
+            throw new BusinessRuleException(String.format("produto de código %s não encontrado", codigo));
+        }
+
+        return produto.get();
+    }
 }
