@@ -2,13 +2,21 @@ package com.rafael.gvendas.gestaovendas.dto.venda;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Schema(name = "Item venda request DTO")
 public class ItemVendaRequestDTO {
 
+    @NotNull(message = "Código produto")
     private Long codigoProduto;
+
+    @NotNull(message = "Quantidade")
+    @Min(value = 1, message = "Quantidade")
     private Integer quantidade;
+
+    @NotNull(message = "Preço vendido")
     private BigDecimal precoVendido;
 
     public ItemVendaRequestDTO() {}
