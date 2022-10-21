@@ -5,12 +5,16 @@ import com.rafael.gvendas.gestaovendas.dto.venda.ItemVendaRequestDTO;
 import com.rafael.gvendas.gestaovendas.dto.venda.VendaRequestDTO;
 import com.rafael.gvendas.gestaovendas.dto.venda.VendaResponseDTO;
 import com.rafael.gvendas.gestaovendas.entities.Cliente;
+import com.rafael.gvendas.gestaovendas.entities.ItemVenda;
+import com.rafael.gvendas.gestaovendas.entities.Produto;
 import com.rafael.gvendas.gestaovendas.entities.Venda;
 import com.rafael.gvendas.gestaovendas.exceptions.BusinessRuleException;
 import com.rafael.gvendas.gestaovendas.repository.ItemVendaRepository;
 import com.rafael.gvendas.gestaovendas.repository.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,9 +48,11 @@ public class VendaService extends AbstractVendaService{
        Venda venda = validateIfVendaExists(codigoVenda);
        return createClienteVendaResponseDTO(venda, itemVendaRepository.findByVendaCodigo(venda.getCodigo()));
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
     public ClienteVendaResponseDTO save(Long codigoCliente, VendaRequestDTO vendaRequestDTO) {
         Cliente cliente = validateIfClienteExists(codigoCliente);
-        validateIfProdutoExists(vendaRequestDTO.getItemVendaRequestDTOs());
+        validateIfProdutoExistsAndUpdateQuantidade(vendaRequestDTO.getItemVendaRequestDTOs());
         Venda venda = saveVenda(cliente, vendaRequestDTO);
         return createClienteVendaResponseDTO(venda, itemVendaRepository.findByVendaCodigo(venda.getCodigo()));
     }
@@ -59,8 +65,55 @@ public class VendaService extends AbstractVendaService{
         return venda;
     }
 
-    private void validateIfProdutoExists(List<ItemVendaRequestDTO> itemVendaRequestDTOs) {
-        itemVendaRequestDTOs.forEach(item -> produtoService.validateIfExists(item.getCodigoProduto()));
+    public ClienteVendaResponseDTO update(Long codigoVenda, Long codigoCliente, VendaRequestDTO vendaRequestDTO) {
+        validateIfVendaExists(codigoVenda);
+        Cliente cliente = validateIfClienteExists(codigoCliente);
+        List<ItemVenda> itensVenda = itemVendaRepository.findByVendaCodigo(codigoVenda);
+        validateIfProdutoExistsAndRefillEstoque(itensVenda);
+        validateIfProdutoExistsAndUpdateQuantidade(vendaRequestDTO.getItemVendaRequestDTOs());
+        itemVendaRepository.deleteAll(itensVenda);
+        Venda venda = updateVenda(codigoVenda, cliente, vendaRequestDTO);
+        return createClienteVendaResponseDTO(venda, itemVendaRepository.findByVendaCodigo(codigoVenda));
+    }
+
+    private Venda updateVenda(Long codigoVenda, Cliente cliente, VendaRequestDTO vendaRequestDTO) {
+        Venda venda =  repository.save(new Venda(codigoVenda, vendaRequestDTO.getData(), cliente));
+        vendaRequestDTO.getItemVendaRequestDTOs().stream()
+                .map(itemVendaDTO -> createItemVenda(itemVendaDTO, venda))
+                .forEach(itemVendaRepository::save);
+        return venda;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
+    public void delete(Long codigoVenda) {
+        Venda venda = validateIfVendaExists(codigoVenda);
+        List<ItemVenda> itensVenda = itemVendaRepository.findByVendaCodigo(codigoVenda);
+        validateIfProdutoExistsAndRefillEstoque(itensVenda);
+        itemVendaRepository.deleteAll(itensVenda);
+        repository.deleteById(codigoVenda);
+    }
+
+    private void validateIfProdutoExistsAndRefillEstoque(List<ItemVenda> itensVenda) {
+        itensVenda.forEach(item -> {
+            Produto produto = produtoService.validateIfExists(item.getProduto().getCodigo());
+            produto.setQuantidade(produto.getQuantidade() + item.getQuantidade());
+            produtoService.updateQuantidadeProdutoEmEstoque(produto);
+        });
+    }
+
+    private void validateIfProdutoExistsAndUpdateQuantidade(List<ItemVendaRequestDTO> itemVendaRequestDTOs) {
+        itemVendaRequestDTOs.forEach(item -> {
+            Produto produto = produtoService.validateIfExists(item.getCodigoProduto());
+            validateIfProdutoTemEstoque(produto, item.getQuantidade());
+            produto.setQuantidade(produto.getQuantidade() - item.getQuantidade());
+            produtoService.updateQuantidadeProdutoEmEstoque(produto);
+        });
+    }
+
+    private void validateIfProdutoTemEstoque(Produto produto, Integer quantidadeVenda) {
+        if (!(produto.getQuantidade() >= quantidadeVenda)) {
+            throw new BusinessRuleException(String.format("A quantidade informada para o produto %s não está disponível em estoque.", produto.getDescricao()));
+        }
     }
 
     private Venda validateIfVendaExists(Long codigoVenda) {

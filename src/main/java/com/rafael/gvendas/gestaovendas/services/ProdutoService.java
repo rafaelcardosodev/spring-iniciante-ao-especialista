@@ -81,4 +81,8 @@ public class ProdutoService {
 
         return produto.get();
     }
+
+    protected void updateQuantidadeProdutoEmEstoque(Produto produto) {
+        repository.save(produto);
+    }
 }

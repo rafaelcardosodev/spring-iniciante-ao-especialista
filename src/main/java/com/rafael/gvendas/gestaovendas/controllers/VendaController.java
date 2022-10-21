@@ -38,4 +38,17 @@ public class VendaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(codigoCliente, vendaRequestDTO));
     }
 
+    @Operation(summary = "Atualizar")
+    @PutMapping("{codigoVenda}/cliente/{codigoCliente}")
+    public ResponseEntity<ClienteVendaResponseDTO> update(@PathVariable Long codigoVenda, @PathVariable Long codigoCliente,@Valid @RequestBody VendaRequestDTO vendaRequestDTO) {
+        return ResponseEntity.ok(service.update(codigoVenda, codigoCliente, vendaRequestDTO));
+    }
+
+    @Operation(summary = "Deletar")
+    @DeleteMapping("/{codigoVenda}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long codigoVenda) {
+        service.delete(codigoVenda);
+    }
+
 }
