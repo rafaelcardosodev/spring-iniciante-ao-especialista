@@ -1,6 +1,23 @@
 version: '3.8'
 
 services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gestao_vendas_app:latest
+    container_name: gestao_vendas_app
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+      - jaeger
+      - prometheus
+      - grafana
+    command: ["-c", "/app/wait-for-mysql.sh mysql:3306 && java -jar /app/gestao-vendas.jar"]
+    entrypoint: ["/bin/sh"]
+
   mysql:
     image: mysql:8.0.22
     container_name: gvendas-mysql
